@@ -21,14 +21,21 @@ export default function Login() {
   }
 
   async function formSubmit(data) {
-    console.log(data)
-    const res = await fetch('http://localhost:8080/auth/login/',{
-      headers:{
-        'Content-Type':'application/json'
-      },
-      body: JSON.stringify(data)})
-    console.log(res)
-    reset();
+    try{
+      const res = await fetch('http://localhost:8080/auth/login/',{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json'
+        },
+        body: JSON.stringify(data)})
+      const result = await res.json()  
+      reset();
+      navigate(`/${result.name}`)
+
+    }catch(e){
+      console.error(e.message)
+    }
+   
   }
 
   return (

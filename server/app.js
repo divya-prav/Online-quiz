@@ -161,15 +161,17 @@ app.post('/auth/signin', async (req, res) => {
   }
 });
 
-app.get('/auth/login',async(req,res)=>{
+app.post('/auth/login',async(req,res)=>{
   try{
     const collection = db.collection('user'); // Replace with your collection name
     const document = req.body; 
-    console.log(document)
     const result = await collection.findOne({email:document.email});
+   
     if(result){
+        console.log(result)
         if(document.password === result.password){
-          res.status(200).json({message:'Logged In Successfully'})
+          res.json({ message: 'Logged In Successfully', name: result.name });
+          //res.json(result).status(200)
         }
         else{
           res.json({message:'Please Check your Password'})
